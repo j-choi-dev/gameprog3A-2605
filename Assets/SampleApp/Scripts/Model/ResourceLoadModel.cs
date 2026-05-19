@@ -12,7 +12,6 @@ namespace SampleApp.Model
 {
     public class ResourceLoadModel : IResourceLoadModel, IDisposable
     {
-        private IResourceLoadApplication _resourceLoadApplication;
         private IResourceDataListApplication _resourceDataListApplication;
         private IFileSystemApllication _fileSystemApplication;
         private IParseApplication _parseApplication;
@@ -26,15 +25,15 @@ namespace SampleApp.Model
         private List<string> _resourceNames = new List<string>();
         private Subject<IReadOnlyList<string>> _onResourceListChanged = new Subject<IReadOnlyList<string>>();
         public IObservable<IReadOnlyList<string>> OnResourceListChanged => _onResourceListChanged;
+        private Subject<bool> _onResourceLaad = new Subject<bool>();
+        public IObservable<bool> OnIsResourceLaad => _onResourceLaad;
 
 
-        public ResourceLoadModel( IResourceLoadApplication resourceALoadpplication,
-            IResourceDataListApplication resourceDataListApplication,
+        public ResourceLoadModel( IResourceDataListApplication resourceDataListApplication,
             IFileSystemApllication fileSystemApplication,
             IParseApplication parseApplication,
             IBundleResourceApplication bundleResourceApplication)
         {
-            _resourceLoadApplication = resourceALoadpplication;
             _resourceDataListApplication = resourceDataListApplication;
             _fileSystemApplication = fileSystemApplication;
             _parseApplication = parseApplication;
@@ -70,8 +69,8 @@ namespace SampleApp.Model
         public async UniTask<bool> LoadResourceProcess( string id )
         {
             var isExist = _bundleResourceApplication.GetIsExist( id.ToLower() );
-            Debug.Log( $"{id}, {isExist}" );
             var resource = await _bundleResourceApplication.LoadCharacterObject(id);
+            _onResourceLaad.OnNext(resource != null);
             return true;
         }
 

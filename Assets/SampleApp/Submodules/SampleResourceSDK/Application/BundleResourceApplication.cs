@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
 using SampleCharacterSDK.Domain;
 using SampleResourceSDK.Domain;
+using System;
+using UniRx;
 
 namespace SampleResourceSDK.Application
 {
@@ -8,6 +10,9 @@ namespace SampleResourceSDK.Application
     {
         private IBundleResourceDomain _bundleDomain;
         private IResourceFactoryDomain _factoryDomain;
+
+        private Subject<ICharacter> _onCharacterLoad = new Subject<ICharacter>();
+        public IObservable<ICharacter> OnCharacterLoad => _onCharacterLoad;
 
         public BundleResourceApplication( IBundleResourceDomain bundleDomain, 
             IResourceFactoryDomain factoryDomain )
@@ -23,6 +28,7 @@ namespace SampleResourceSDK.Application
         {
             var obj = await _bundleDomain.LoadObject( fileName );
             var character = await _factoryDomain.GenerateCharacter(obj);
+            _onCharacterLoad.OnNext( character );
             return character;
         }
     }

@@ -1,3 +1,16 @@
 {
-	"name": "SampleCharacterSDK"
+    "name": "SampleCharacterSDK",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a00385887f1e2b44fbd55787f7990344"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

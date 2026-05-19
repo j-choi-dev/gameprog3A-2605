@@ -40,6 +40,9 @@ namespace SampleResourceSDK.Infrastructure
                 return null;
             }
 
+            character.SetID(instance.gameObject.name);
+            character.SetPosition(Vector3.zero);
+
             await UniTask.Yield();
             return character;
         }

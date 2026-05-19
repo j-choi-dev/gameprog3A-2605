@@ -29,6 +29,11 @@ namespace SampleApp.Installer
                 .Bind<IResourceLoadModel>()
                 .To<ResourceLoadModel>()
                 .AsSingle();
+            Container
+                .Bind<ITransformModel>()
+                .To<TransformModel>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

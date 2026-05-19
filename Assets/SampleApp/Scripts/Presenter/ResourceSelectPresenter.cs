@@ -27,11 +27,14 @@ namespace SampleApp.Presenter
             await _resourceLoadModel.InitializeProcess();
         }
 
+        private void Start()
+        {
+            _view.SetVector3(Vector3.zero);
+            _view.SetTransformInteractable(false);
+        }
+
         private async void SubscribeView()
         {
-            _view.OnSelectIndexChange
-                .Subscribe( arg => Debug.Log( arg ) )
-                .AddTo( this );
             _view.OnSelectNameChange
                 .Subscribe( async id => await _resourceLoadModel.LoadResourceProcess( id ) )
                 .AddTo( this );
@@ -42,6 +45,11 @@ namespace SampleApp.Presenter
             _resourceLoadModel.OnResourceListChanged
                 .Subscribe( arg => _view.SetOptions( arg ) )
                 .AddTo( this );
+
+            _resourceLoadModel.OnIsResourceLaad
+                .Subscribe(isLoad => _view.SetTransformInteractable(isLoad))
+                .AddTo(this);
+
         }
     }
 }

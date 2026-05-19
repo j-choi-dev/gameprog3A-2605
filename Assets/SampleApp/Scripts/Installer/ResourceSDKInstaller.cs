@@ -14,13 +14,10 @@ namespace SampleApp.Installer
         {
             // Application
             Container
-                .Bind<IResourceLoadApplication>()
-                    .To<ResourceLoadApplication>()
-                    .AsSingle();
-            Container
                 .Bind<IResourceDataListApplication>()
                     .To<ResourceDataListApplication>()
-                    .AsSingle();
+                    .AsSingle()
+                    .NonLazy();
             Container
                 .Bind<IBundleResourceApplication>()
                     .To<BundleResourceApplication>()
@@ -34,6 +31,7 @@ namespace SampleApp.Installer
             Container
                 .Bind<IBundleResourceDomain>()
                     .To<StreamingAssetBundleLoader>()
+                    //.To<GoogleDriveBundleLoader>()
                     .AsSingle();
             Container
                 .Bind<IResourceFactoryDomain>()
