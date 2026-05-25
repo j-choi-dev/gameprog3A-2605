@@ -1,10 +1,5 @@
 using Cysharp.Threading.Tasks;
 using SampleEditorSDK.Domain;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEditor;
-using UnityEngine;
 
 namespace SampleEditorSDK.Application
 {
@@ -16,19 +11,19 @@ namespace SampleEditorSDK.Application
             _domain = domain;
         }
 
-        public async UniTask<bool> ExecuteAssetBundleBuild( BuildTargetGroup platform )
+        public async UniTask<bool> ExecuteAssetBundleBuild( AssetBundleBuildInfo buildInfo )
         {
-            var result = await _domain.PreProcess( platform );
+            var result = await _domain.PreProcess(buildInfo);
             if(result == false)
             {
                 return false;
             }
-            result = await _domain.BuildProcess( platform );
+            result = await _domain.BuildProcess();
             if(result == false)
             {
                 return false;
             }
-            return await _domain.PostProcess( platform );
+            return await _domain.PostProcess();
         }
     }
 }

@@ -30,10 +30,9 @@ namespace SampleApp.Installer
                 .To<ResourceLoadModel>()
                 .AsSingle();
             Container
-                .Bind<ITransformModel>()
-                .To<TransformModel>()
-                .AsSingle()
-                .NonLazy();
+                .Bind<ITansformModel>()
+                .To<TansformModel>()
+                .AsSingle();
         }
     }
 }

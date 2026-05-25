@@ -7,34 +7,23 @@ namespace SampleAppSystemSDK.Infrastructure
 {
     public class KeyInputInfrastructure : MonoBehaviour, IKeyInput
     {
-        private readonly Subject<KeyCode> _onKeyCodeInput = new Subject<KeyCode>();
+        private Subject<KeyCode> _onKeyCodeInput = new Subject<KeyCode>();
         public IObservable<KeyCode> OnKeyCodeInput => _onKeyCodeInput;
 
-        private void Update()
+        void Update()
         {
-            PublishIfPressed( KeyCode.W );
-            PublishIfPressed( KeyCode.A );
-            PublishIfPressed( KeyCode.S );
-            PublishIfPressed( KeyCode.D );
-
-            PublishIfPressed( KeyCode.UpArrow );
-            PublishIfPressed( KeyCode.LeftArrow );
-            PublishIfPressed( KeyCode.DownArrow );
-            PublishIfPressed( KeyCode.RightArrow );
-        }
-
-        private void PublishIfPressed( KeyCode keyCode )
-        {
-            if( Input.GetKey( keyCode ) )
+            if (Input.anyKeyDown)
             {
-                _onKeyCodeInput.OnNext( keyCode );
+                foreach (KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
+                {
+                    if (Input.GetKeyDown(keyCode))
+                    {
+                        _onKeyCodeInput.OnNext(keyCode);
+                        break;
+                    }
+                }
             }
         }
 
-        private void OnDestroy()
-        {
-            _onKeyCodeInput.OnCompleted();
-            _onKeyCodeInput.Dispose();
-        }
     }
 }

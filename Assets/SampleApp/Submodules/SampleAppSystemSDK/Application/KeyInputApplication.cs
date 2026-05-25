@@ -8,11 +8,12 @@ namespace SampleAppSystemSDK.Application
     public class KeyInputApplication : IKeyInputApplication, IDisposable
     {
         private IKeyInput _keyInput;
+
         public IObservable<KeyCode> OnKeyCodeInput => _keyInput.OnKeyCodeInput;
 
         private CompositeDisposable _disposable;
 
-        public KeyInputApplication( IKeyInput keyInput )
+        public KeyInputApplication(IKeyInput keyInput)
         {
             _disposable = new CompositeDisposable();
             _keyInput = keyInput;

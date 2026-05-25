@@ -1,0 +1,57 @@
+{
+    "Platform": "StandaloneWindows64",
+    "BuildTarget": "Standalone",
+    "BuildDirectory": "C:/Users/Choi/Documents/Work.Private/gameprog3A-2605/Builds/StandaloneWindows64/20260526_024757",
+    "Version": "20260526_024757",
+    "GeneratedAt": "2026-05-26 02:49:04",
+    "AppInfo": [
+        {
+            "AssetBundleName": "character_001.ab",
+            "FileSize": 17607202,
+            "CRC": 3893608835,
+            "Hash": "8a84834fbedbf8741e8a0a06c0031295",
+            "Dependencies": [],
+            "AssetBundlePath": "C:/Users/Choi/Documents/Work.Private/gameprog3A-2605/Builds/StandaloneWindows64/20260526_024757/character_001.ab"
+        },
+        {
+            "AssetBundleName": "character_002.ab",
+            "FileSize": 17556782,
+            "CRC": 3198912500,
+            "Hash": "492ab668454a141347bb8dbd71e8d75f",
+            "Dependencies": [],
+            "AssetBundlePath": "C:/Users/Choi/Documents/Work.Private/gameprog3A-2605/Builds/StandaloneWindows64/20260526_024757/character_002.ab"
+        },
+        {
+            "AssetBundleName": "character_003.ab",
+            "FileSize": 19796800,
+            "CRC": 3726830816,
+            "Hash": "0f9ce1c95845eab5c7c41ff0635d9d4c",
+            "Dependencies": [],
+            "AssetBundlePath": "C:/Users/Choi/Documents/Work.Private/gameprog3A-2605/Builds/StandaloneWindows64/20260526_024757/character_003.ab"
+        },
+        {
+            "AssetBundleName": "character_004.ab",
+            "FileSize": 17487918,
+            "CRC": 4166833238,
+            "Hash": "4768fb2ea8d201d3b0fcf0b785acfd1b",
+            "Dependencies": [],
+            "AssetBundlePath": "C:/Users/Choi/Documents/Work.Private/gameprog3A-2605/Builds/StandaloneWindows64/20260526_024757/character_004.ab"
+        },
+        {
+            "AssetBundleName": "character_005.ab",
+            "FileSize": 19874344,
+            "CRC": 695980063,
+            "Hash": "7b14fe6faef74279e61a6fb19abe073d",
+            "Dependencies": [],
+            "AssetBundlePath": "C:/Users/Choi/Documents/Work.Private/gameprog3A-2605/Builds/StandaloneWindows64/20260526_024757/character_005.ab"
+        },
+        {
+            "AssetBundleName": "character_006.ab",
+            "FileSize": 19887229,
+            "CRC": 2872415200,
+            "Hash": "d1d58741c474cb895344466bef36ab3e",
+            "Dependencies": [],
+            "AssetBundlePath": "C:/Users/Choi/Documents/Work.Private/gameprog3A-2605/Builds/StandaloneWindows64/20260526_024757/character_006.ab"
+        }
+    ]
+}

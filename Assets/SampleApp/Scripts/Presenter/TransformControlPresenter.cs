@@ -9,12 +9,12 @@ namespace SampleApp.Presenter
     public class TransformControlPresenter : MonoBehaviour
     {
         private ISampleAppUIView _view;
-        private ITransformModel _transformModel;
+        private ITansformModel _transformModel;
 
 
         [Inject]
         public void Initialize(ISampleAppUIView view,
-            ITransformModel transformModel)
+            ITansformModel transformModel)
         {
             _view = view;
             _transformModel = transformModel;

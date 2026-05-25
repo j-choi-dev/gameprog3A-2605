@@ -95,11 +95,11 @@ namespace SampleResourceSDK.Infrastructure
             return Path.Combine(_cacheRootPath, $"{fileName}{Prefix}");
         }
 
-        private async UniTask<bool> DownloadBundle( string fileName, string savePath )
+        private async UniTask<bool> DownloadBundle(string fileName, string savePath)
         {
-            if( !_driveFileIdByFileName.TryGetValue( fileName, out var driveFileId ) )
+            if (!_driveFileIdByFileName.TryGetValue(fileName, out var driveFileId))
             {
-                Debug.LogError( $"Google Drive file id is not registered. fileName: {fileName}" );
+                Debug.LogError($"Google Drive file id is not registered. fileName: {fileName}");
                 return false;
             }
 
@@ -108,29 +108,24 @@ namespace SampleResourceSDK.Infrastructure
             using var request = UnityWebRequest.Get(url);
             request.downloadHandler = new DownloadHandlerBuffer();
 
-            if( _accessTokenProvider != null )
+            if (_accessTokenProvider != null)
             {
                 var accessToken = await _accessTokenProvider.Invoke();
 
-                if( !string.IsNullOrEmpty( accessToken ) )
+                if (!string.IsNullOrEmpty(accessToken))
                 {
-                    request.SetRequestHeader( "Authorization", $"Bearer {accessToken}" );
+                    request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
                 }
             }
 
             await request.SendWebRequest().ToUniTask();
 
-            var contentType = request.GetResponseHeader("Content-Type");
-
-            Debug.Log( $"Google Drive Download URL: {url}" );
-            Debug.Log( $"ResponseCode: {request.responseCode}" );
-            Debug.Log( $"Content-Type: {contentType}" );
-
-            if( request.result != UnityWebRequest.Result.Success )
+            if (request.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError(
                     $"Google Drive AssetBundle download failed.\n" +
                     $"fileName: {fileName}\n" +
+                    $"url: {url}\n" +
                     $"responseCode: {request.responseCode}\n" +
                     $"error: {request.error}"
                 );
@@ -140,33 +135,17 @@ namespace SampleResourceSDK.Infrastructure
 
             var bytes = request.downloadHandler.data;
 
-            if( bytes == null || bytes.Length == 0 )
+            if (bytes == null || bytes.Length == 0)
             {
-                Debug.LogError( $"Downloaded AssetBundle is empty. fileName: {fileName}" );
-                return false;
-            }
-
-            Debug.Log( $"Downloaded Bytes: {bytes.Length}" );
-
-            if( IsProbablyHtmlOrJson( bytes ) )
-            {
-                var preview = GetTextPreview(bytes, 300);
-
-                Debug.LogError(
-                    $"Downloaded file is not AssetBundle. It looks like HTML/JSON.\n" +
-                    $"fileName: {fileName}\n" +
-                    $"contentType: {contentType}\n" +
-                    $"preview:\n{preview}"
-                );
-
+                Debug.LogError($"Downloaded AssetBundle is empty. fileName: {fileName}");
                 return false;
             }
 
             var directory = Path.GetDirectoryName(savePath);
 
-            if( !Directory.Exists( directory ) )
+            if (!Directory.Exists(directory))
             {
-                Directory.CreateDirectory( directory );
+                Directory.CreateDirectory(directory);
             }
 
             var tempPath = $"{savePath}.tmp";
@@ -175,22 +154,22 @@ namespace SampleResourceSDK.Infrastructure
 
             try
             {
-                File.WriteAllBytes( tempPath, bytes );
+                File.WriteAllBytes(tempPath, bytes);
 
-                if( File.Exists( savePath ) )
+                if (File.Exists(savePath))
                 {
-                    File.Delete( savePath );
+                    File.Delete(savePath);
                 }
 
-                File.Move( tempPath, savePath );
+                File.Move(tempPath, savePath);
             }
-            catch( Exception e )
+            catch (Exception e)
             {
-                Debug.LogException( e );
+                Debug.LogException(e);
 
-                if( File.Exists( tempPath ) )
+                if (File.Exists(tempPath))
                 {
-                    File.Delete( tempPath );
+                    File.Delete(tempPath);
                 }
 
                 await UniTask.SwitchToMainThread();
@@ -199,24 +178,9 @@ namespace SampleResourceSDK.Infrastructure
 
             await UniTask.SwitchToMainThread();
 
-            Debug.Log( $"Google Drive AssetBundle downloaded. fileName: {fileName}, path: {savePath}" );
+            Debug.Log($"Google Drive AssetBundle downloaded. fileName: {fileName}, path: {savePath}");
 
             return true;
-        }
-
-        private bool IsProbablyHtmlOrJson( byte[] bytes )
-        {
-            var preview = GetTextPreview(bytes, 100).TrimStart();
-
-            return preview.StartsWith( "<!DOCTYPE", StringComparison.OrdinalIgnoreCase )
-                || preview.StartsWith( "<html", StringComparison.OrdinalIgnoreCase )
-                || preview.StartsWith( "{", StringComparison.OrdinalIgnoreCase );
-        }
-
-        private string GetTextPreview( byte[] bytes, int maxLength )
-        {
-            var length = Mathf.Min(bytes.Length, maxLength);
-            return System.Text.Encoding.UTF8.GetString( bytes, 0, length );
         }
 
         private async UniTask<AssetBundle> LoadAssetBundleFromFile(string path)
@@ -242,7 +206,13 @@ namespace SampleResourceSDK.Infrastructure
         private string BuildDownloadUrl(string driveFileId)
         {
             var encodedFileId = UnityWebRequest.EscapeURL(driveFileId);
-            return $"https://drive.google.com/uc?export=download&id={encodedFileId}";
+            var url = $"https://drive.google.com/file/d/{encodedFileId}?alt=media";
+            if (!string.IsNullOrEmpty(_apiKey))
+            {
+                url += $"&key={UnityWebRequest.EscapeURL(_apiKey)}";
+            }
+
+            return url;
         }
     }
 }
